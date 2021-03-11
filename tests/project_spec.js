@@ -173,5 +173,78 @@ describe('Project Test', () => {
             project.lancer(lancer_en_trop);
             expect(project.getCurrentScore()).to.equal(score + lancer_bonus * 2);
         })
+        it("un indicateur est obtenu lorsque la partie est incomplète", () => {
+            const project = new Project();
+            const lancer1 = 10;
+            const lancer2 = 7;
+            const lancer3 = 1;
+
+            project.lancer(lancer1);
+            project.lancer(lancer2);
+            project.lancer(lancer3);
+            expect(project.isGameOver()).to.equal(false); 
+        })
+        it("un indicateur est obtenu lorsque la partie est terminée normalement", () => {
+            const project = new Project();
+            const lancers = [
+                3, 2,
+                7, 0,
+                8, 1,
+                0, 0,
+                5, 1,
+                3, 6,
+                8, 0,
+                1, 5,
+                4, 5,
+                1, 0
+            ];
+            for (let lancer of lancers) // effectue tout les lancers présents dans la variable "lancers"
+                project.lancer(lancer);
+            expect(project.isGameOver()).to.equal(true); 
+        })
+        it("un indicateur est obtenu lorsque la partie est terminée avec un spare", () => {
+            const project = new Project();
+            const lancers = [
+                3, 2,
+                7, 0,
+                8, 1,
+                0, 0,
+                5, 1,
+                3, 6,
+                8, 0,
+                1, 5,
+                4, 5,
+                1, 9
+            ];
+            for (let lancer of lancers) // effectue tout les lancers présents dans la variable "lancers"
+                project.lancer(lancer);
+            const lancer_bonus = 5
+            expect(project.isGameOver()).to.equal(false); 
+            project.lancer(lancer_bonus)
+            expect(project.isGameOver()).to.equal(true); 
+        })
+        it("un indicateur est obtenu lorsque la partie est terminée avec un strike", () => {
+            const project = new Project();
+            const lancers = [
+                3, 2,
+                7, 0,
+                8, 1,
+                0, 0,
+                5, 1,
+                3, 6,
+                8, 0,
+                1, 5,
+                4, 5,
+                10
+            ];
+            for (let lancer of lancers) // effectue tout les lancers présents dans la variable "lancers"
+                project.lancer(lancer);
+            const lancer_bonus = 5
+            const lancer_bonus2 = 5
+            expect(project.isGameOver()).to.equal(false); 
+            project.lancer(lancer_bonus)
+            project.lancer(lancer_bonus2)
+            expect(project.isGameOver()).to.equal(true); 
+        })
     })
 })

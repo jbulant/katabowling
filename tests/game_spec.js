@@ -38,5 +38,35 @@ describe('Game Test', () => {
             game.play()
             expect(game.getCurrentScore()).to.equal(17)
         })
+
+        it("test l'affichage du score en fin de partie", () => {
+            // simulation stub rollProvider
+            const rollProvider = {
+                getRoll: sinon.stub()
+            };
+            var consoleDisplayer = { displayToConsole: function (){}, func: function(){} };
+
+            const consoleDisplayerMock = sinon.mock(consoleDisplayer)
+            const game = new Game(rollProvider, consoleDisplayer);
+            const lancers = [
+                3, 2,
+                7, 0,
+                8, 1,
+                0, 0,
+                5, 1,
+                3, 6,
+                8, 0,
+                1, 5,
+                4, 5,
+                7, 2
+            ];
+            const score = lancers.reduce((ag, v) => ag + v, 0);
+            consoleDisplayerMock.expects('displayToConsole').once().withArgs(score)
+            for (let index in lancers) {
+                rollProvider.getRoll.onCall(index).returns(lancers[index])
+                game.play()
+            }
+            consoleDisplayerMock.verify()
+        })
     })
 })

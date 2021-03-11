@@ -26,6 +26,7 @@ class Project {
         this.nb_lancer = 0;
         this.previousFrameScore = 0;
         this.previousFigure = 'none';
+        this.gameState = 'started';
     }
     _isNewFrame() {
         return this.nb_lancer % 2 === 0;
@@ -38,6 +39,8 @@ class Project {
         } else if (this.nb_lancer < MAX_LANCERS + STRIKE_BONUS) {
             this.score += value;
             this.nb_lancer++;
+            if (this.nb_lancer == MAX_LANCERS + STRIKE_BONUS ) 
+                this.gameState = 'finished';
         }
     }
     _lancerSpare(value) {
@@ -45,6 +48,7 @@ class Project {
             this.score += value * 2;
         } else if (this.nb_lancer < MAX_LANCERS + SPARE_BONUS) {
             this.score += value;
+            this.gameState = 'finished'
         }
         this.previousFigure = 'none';
     }
@@ -66,12 +70,17 @@ class Project {
                 this.previousFrameScore += value;
                 if (this.previousFrameScore === MAX_SCORE_LANCER)
                     this.previousFigure = 'spare';
+                else if ( this.nb_lancer ==  MAX_LANCERS - 1)
+                    this.gameState = 'finished'
            }
            this.nb_lancer++;
        }
    }
     getCurrentScore() {
         return this.score;
+    }
+    isGameOver() {
+        return this.gameState === 'finished';
     }
 }
 
