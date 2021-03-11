@@ -147,5 +147,31 @@ describe('Project Test', () => {
             project.lancer(lancer_en_trop);
             expect(project.getCurrentScore()).to.equal(score + lancer_bonus);
         })
+        it("le score se termine sur 2 lancer bonus lorsqu'un strike est effectué sur le dernier tour", () => {
+            const project = new Project();
+            const lancers = [
+                3, 2,
+                7, 0,
+                8, 1,
+                0, 0,
+                5, 1,
+                3, 6,
+                8, 0,
+                1, 5,
+                4, 5,
+                10
+            ];
+            for (let lancer of lancers) // effectue tout les lancers présents dans la variable "lancers"
+                project.lancer(lancer);
+            const score = lancers.reduce((ag, v) => ag + v, 0);
+            expect(project.getCurrentScore()).to.equal(score);
+
+            const lancer_bonus = 10;
+            project.lancer(lancer_bonus);
+            project.lancer(lancer_bonus);
+            const lancer_en_trop = 4;
+            project.lancer(lancer_en_trop);
+            expect(project.getCurrentScore()).to.equal(score + lancer_bonus * 2);
+        })
     })
 })
