@@ -85,6 +85,19 @@ describe('Project Test', () => {
             expect(project.getCurrentScore()).to.equal(lancer1 + lancer2 + 2 * lancer3);
         })
     })
+    context('Score strike', () => {
+        it('le score correspond au nombre de points gagnés est le nombre de quilles tombées plus les points des 2 lancers suivants', () => {
+            const project = new Project();
+            const lancer1 = 10;
+            const lancer2 = 7;
+            const lancer3 = 1;
+
+            project.lancer(lancer1);
+            project.lancer(lancer2);
+            project.lancer(lancer3);
+            expect(project.getCurrentScore()).to.equal(lancer1 + 2 * (lancer2 + lancer3));
+        })
+    })
     context('Fin de partie', () => {
         it('le score se termine à la fin de la 10ème frame', () => {
             const project = new Project();
